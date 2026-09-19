@@ -207,35 +207,31 @@ footer{margin-top:36px;border-top:1px solid #d6ddd7;padding:24px 0 0;color:#7580
     <div class="section-title">
       <div>
         <div class="eyebrow">Mô phỏng trải nghiệm</div>
-        <h2>30 giây hành trình tương tác hiện có</h2>
+        <h2>20 giây hành trình tương tác</h2>
       </div>
       <p>
-        Ba video 10 giây được đặt trực tiếp trong repository GitHub. Website chỉ tải metadata lúc mở trang
+        Hai video 10 giây được phát theo đúng trình tự đã chọn. Website chỉ tải metadata lúc mở trang
         để không làm nặng trải nghiệm; video chỉ tải đầy đủ khi người xem bấm phát.
       </p>
     </div>
 
     <div class="journey-strip" aria-label="Hành trình video">
-      <button class="journey-step active" type="button" data-video-index="0"><b>01</b><span>Bước vào không gian</span></button>
+      <button class="journey-step active" type="button" data-video-index="0"><b>01</b><span>Không gian thức tỉnh</span></button>
       <div class="journey-arrow">→</div>
-      <button class="journey-step" type="button" data-video-index="1"><b>02</b><span>Không gian thức tỉnh</span></button>
-      <div class="journey-arrow">→</div>
-      <button class="journey-step" type="button" data-video-index="2"><b>03</b><span>Vùng tương tác sống động</span></button>
-      <div class="journey-arrow muted">→</div>
-      <div class="journey-step pending"><b>04–05</b><span>Sẽ bổ sung</span></div>
+      <button class="journey-step" type="button" data-video-index="1"><b>02</b><span>Tiếp nối hành trình</span></button>
     </div>
 
     <div class="video-feature card">
       <div class="video-feature-player">
         <video id="mainExperienceVideo" controls playsinline preload="metadata">
-          <source src="assets/videos/Use_the_provided_Thị_Tấm_resta.mp4" type="video/mp4">
+          <source src="assets/videos/Tiếp_tục_tạo_VIDEO_—_–_s.mp4" type="video/mp4">
           Trình duyệt của bạn không hỗ trợ video HTML5.
         </video>
       </div>
       <div class="video-feature-copy">
         <div class="eyebrow" id="videoEyebrow">Phân cảnh 01 · 10 giây</div>
-        <h3 id="videoTitle">Bước vào không gian Thị Tấm</h3>
-        <p id="videoDesc">Thiết lập bầu không khí ban đầu và cảm giác chuyển tiếp từ phố Tú Xương vào lối đi trải nghiệm.</p>
+        <h3 id="videoTitle">Không gian thức tỉnh</h3>
+        <p id="videoDesc">Hiệu ứng ánh sáng, sương và các yếu tố tương tác bắt đầu xuất hiện, dẫn khách sâu hơn vào hành trình.</p>
         <div class="video-nav" id="videoNav"></div>
         <div class="video-controls">
           <button type="button" id="prevVideo">← Video trước</button>
@@ -247,9 +243,7 @@ footer{margin-top:36px;border-top:1px solid #d6ddd7;padding:24px 0 0;color:#7580
     <div class="video-grid compact" id="videoCards"></div>
 
     <div class="callout video-note">
-      <b>Hướng phát triển tiếp:</b> khi có thêm Video 4 và Video 5, chỉ cần đặt file vào
-      <code>assets/videos/</code> rồi bổ sung một mục trong danh sách video ở cuối file <code>index.html</code>.
-      Không cần thay đổi layout.
+      <b>Trình tự phát:</b> Video 01 → Video 02. Khi Video 01 phát xong, website sẽ tự động chuyển sang Video 02.
     </div>
   </section>
 
@@ -425,22 +419,16 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); }
 
 const EXPERIENCE_VIDEOS = [
   {
-    src: "assets/videos/Use_the_provided_Thị_Tấm_resta.mp4",
-    label: "Phân cảnh 01 · 10 giây",
-    title: "Bước vào không gian Thị Tấm",
-    desc: "Thiết lập bầu không khí ban đầu và cảm giác chuyển tiếp từ phố Tú Xương vào lối đi trải nghiệm."
-  },
-  {
     src: "assets/videos/Tiếp_tục_tạo_VIDEO_—_–_s.mp4",
-    label: "Phân cảnh 02 · 10 giây",
-    title: "Không gian bắt đầu thức tỉnh",
-    desc: "Các lớp ánh sáng, sương và hiệu ứng phản ứng dần xuất hiện, dẫn khách sâu hơn vào hành trình."
+    label: "Phân cảnh 01 · 10 giây",
+    title: "Không gian thức tỉnh",
+    desc: "Hiệu ứng ánh sáng, sương và các yếu tố tương tác bắt đầu xuất hiện, dẫn khách sâu hơn vào hành trình."
   },
   {
-    src: "assets/videos/Tiếp_tục_tạo_video_Vùng_–_“T.mp4",
-    label: "Phân cảnh 03 · 10 giây",
-    title: "Vùng tương tác sống động",
-    desc: "Tăng mật độ chuyển động và tương tác: cá ánh sáng, đom đóm, sen, gợn nước và các hiệu ứng dành cho trẻ em."
+    src: "assets/videos/gemini_generated_video_1dea2977.mp4",
+    label: "Phân cảnh 02 · 10 giây",
+    title: "Tiếp nối hành trình",
+    desc: "Phân cảnh tiếp theo nối liền trải nghiệm, tăng cảm giác tiên cảnh và dẫn khách sang vùng kế tiếp."
   }
 ];
 
