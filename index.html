@@ -149,6 +149,19 @@ footer{margin-top:36px;border-top:1px solid #d6ddd7;padding:24px 0 0;color:#7580
   .video-grid.compact{grid-template-columns:1fr}
 }
 
+
+.journey-step{
+  appearance:none;-webkit-appearance:none;text-align:left;font:inherit;cursor:pointer;
+}
+.journey-step.pending{cursor:default}
+.video-controls{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.video-controls button{
+  border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.06);color:#fff;
+  padding:10px 13px;border-radius:10px;cursor:pointer;font-weight:800;font-size:12px
+}
+.video-controls button:hover{background:#fff;color:var(--green)}
+.video-controls button:disabled{opacity:.35;cursor:not-allowed;background:transparent;color:#fff}
+
 </style>
 </head>
 <body>
@@ -203,11 +216,11 @@ footer{margin-top:36px;border-top:1px solid #d6ddd7;padding:24px 0 0;color:#7580
     </div>
 
     <div class="journey-strip" aria-label="Hành trình video">
-      <div class="journey-step active"><b>01</b><span>Bước vào không gian</span></div>
+      <button class="journey-step active" type="button" data-video-index="0"><b>01</b><span>Bước vào không gian</span></button>
       <div class="journey-arrow">→</div>
-      <div class="journey-step"><b>02</b><span>Không gian thức tỉnh</span></div>
+      <button class="journey-step" type="button" data-video-index="1"><b>02</b><span>Không gian thức tỉnh</span></button>
       <div class="journey-arrow">→</div>
-      <div class="journey-step"><b>03</b><span>Vùng tương tác sống động</span></div>
+      <button class="journey-step" type="button" data-video-index="2"><b>03</b><span>Vùng tương tác sống động</span></button>
       <div class="journey-arrow muted">→</div>
       <div class="journey-step pending"><b>04–05</b><span>Sẽ bổ sung</span></div>
     </div>
@@ -224,6 +237,10 @@ footer{margin-top:36px;border-top:1px solid #d6ddd7;padding:24px 0 0;color:#7580
         <h3 id="videoTitle">Bước vào không gian Thị Tấm</h3>
         <p id="videoDesc">Thiết lập bầu không khí ban đầu và cảm giác chuyển tiếp từ phố Tú Xương vào lối đi trải nghiệm.</p>
         <div class="video-nav" id="videoNav"></div>
+        <div class="video-controls">
+          <button type="button" id="prevVideo">← Video trước</button>
+          <button type="button" id="nextVideo">Video tiếp theo →</button>
+        </div>
       </div>
     </div>
 
@@ -434,9 +451,12 @@ const videoDesc = document.getElementById('videoDesc');
 const videoNav = document.getElementById('videoNav');
 const videoCards = document.getElementById('videoCards');
 
+let currentExperienceVideo = 0;
+
 function selectExperienceVideo(index, autoplay=false){
   const item = EXPERIENCE_VIDEOS[index];
   if(!item) return;
+  currentExperienceVideo = index;
   const wasPlaying = !mainVideo.paused;
   mainVideo.pause();
   mainVideo.src = item.src;
@@ -447,6 +467,11 @@ function selectExperienceVideo(index, autoplay=false){
 
   [...videoNav.children].forEach((b,i)=>b.classList.toggle('active',i===index));
   [...videoCards.children].forEach((c,i)=>c.classList.toggle('current',i===index));
+  document.querySelectorAll('.journey-step[data-video-index]').forEach(step=>{
+    step.classList.toggle('active', +step.dataset.videoIndex === index);
+  });
+  document.getElementById('prevVideo').disabled = index === 0;
+  document.getElementById('nextVideo').disabled = index === EXPERIENCE_VIDEOS.length - 1;
 
   if(autoplay || wasPlaying){
     mainVideo.play().catch(()=>{});
@@ -484,7 +509,29 @@ videoCards.addEventListener('click', e=>{
   document.querySelector('.video-feature').scrollIntoView({behavior:'smooth',block:'center'});
 });
 
+document.querySelector('.journey-strip').addEventListener('click', e=>{
+  const step = e.target.closest('.journey-step[data-video-index]');
+  if(!step) return;
+  selectExperienceVideo(+step.dataset.videoIndex, true);
+});
 
+document.getElementById('prevVideo').addEventListener('click', ()=>{
+  if(currentExperienceVideo > 0) selectExperienceVideo(currentExperienceVideo - 1, true);
+});
+document.getElementById('nextVideo').addEventListener('click', ()=>{
+  if(currentExperienceVideo < EXPERIENCE_VIDEOS.length - 1) {
+    selectExperienceVideo(currentExperienceVideo + 1, true);
+  }
+});
+
+mainVideo.addEventListener('ended', ()=>{
+  if(currentExperienceVideo < EXPERIENCE_VIDEOS.length - 1) {
+    selectExperienceVideo(currentExperienceVideo + 1, true);
+  }
+});
+
+
+selectExperienceVideo(0, false);
 renderZones(); calc();
   }));
 }
