@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thị Tấm — Dự toán hệ thống tương tác 20m</title>
+<style>
+:root {
+  --bg:#f5f2ea; --paper:#fffdf8; --ink:#17362f; --muted:#6f756f; --green:#174b3e;
+  --green2:#2d6a58; --line:#d9ddd5; --gold:#bd8b43; --rose:#b96f8d; --blue:#4d8898;
+  --shadow:0 16px 42px rgba(20,55,45,.10); --radius:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#f7f4ed 0,#f3efe6 100%);color:var(--ink)}
+a{color:inherit}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(255,253,248,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(23,75,62,.12)}
+.nav{max-width:1280px;margin:auto;padding:13px 22px;display:flex;align-items:center;gap:18px}
+.brand{font-weight:850;letter-spacing:.02em;margin-right:auto}
+.nav a{text-decoration:none;font-size:14px;color:#50605a}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid #bcd0c7;background:#e9f3ee;padding:7px 11px;border-radius:999px;font-size:12px;font-weight:750}
+.badge:before{content:"";width:8px;height:8px;border-radius:50%;background:#2b8c68;box-shadow:0 0 0 4px #d9eee5}
+main{max-width:1280px;margin:auto;padding:26px 22px 70px}
+.hero{display:grid;grid-template-columns:minmax(360px,.72fr) minmax(0,1.65fr);gap:24px;align-items:stretch}
+.card{background:var(--paper);border:1px solid rgba(24,70,59,.12);border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero-copy{padding:34px;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--gold);font-weight:800}
+h1{font-size:clamp(34px,5vw,66px);line-height:.98;margin:13px 0 16px;letter-spacing:-.04em}
+.hero-copy p{font-size:17px;line-height:1.7;color:#57635d;margin:0 0 22px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kpi{background:#f1f4ef;border:1px solid #dce4dd;padding:14px;border-radius:16px}
+.kpi strong{display:block;font-size:24px}
+.kpi span{font-size:12px;color:var(--muted)}
+.hero-img{overflow:hidden;min-height:480px;position:relative;background:#eee9df;display:flex;align-items:center;justify-content:center}
+.hero-img img{width:100%;height:auto;max-height:none;object-fit:contain;display:block;cursor:zoom-in}
+.hero-img .caption{position:absolute;left:16px;bottom:16px;background:rgba(10,25,20,.72);color:white;padding:10px 13px;border-radius:12px;font-size:12px;backdrop-filter:blur(8px)}
+.section{margin-top:34px}
+.section-title{display:flex;justify-content:space-between;gap:18px;align-items:end;margin:0 0 16px}
+.section-title h2{margin:0;font-size:28px;letter-spacing:-.02em}
+.section-title p{margin:0;color:var(--muted);max-width:650px;line-height:1.55}
+.zone-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.zone{padding:20px;position:relative;cursor:pointer;transition:.2s ease;border:2px solid transparent}
+.zone:hover{transform:translateY(-2px)}
+.zone.selected{border-color:var(--green);box-shadow:0 12px 34px rgba(23,75,62,.16)}
+.zone input{position:absolute;right:16px;top:16px;width:19px;height:19px;accent-color:var(--green)}
+.zone-no{font-size:12px;color:white;font-weight:850;display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;background:var(--zone)}
+.zone h3{font-size:17px;margin:14px 0 5px}
+.zone .range{font-size:12px;color:var(--gold);font-weight:750}
+.zone p{font-size:13px;color:#667069;line-height:1.55;min-height:60px}
+.zone-cost{margin-top:12px;padding-top:12px;border-top:1px dashed #cfd7d1;display:flex;justify-content:space-between;gap:10px;align-items:end}
+.zone-cost strong{font-size:21px}
+.zone-cost span{font-size:11px;color:var(--muted);text-align:right}
+.planner{display:grid;grid-template-columns:1.5fr .75fr;gap:18px}
+.control-panel{padding:24px}
+.control-group{border-top:1px solid #e0e5df;padding-top:18px;margin-top:18px}
+.control-group:first-child{border-top:0;padding-top:0;margin-top:0}
+.control-group h3{margin:0 0 12px;font-size:16px}
+.switch-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid #eef0ec}
+.switch-row:last-child{border-bottom:0}
+.switch-row .desc{font-size:12px;color:var(--muted);margin-top:3px}
+.toggle{position:relative;width:48px;height:27px;flex:0 0 auto}
+.toggle input{display:none}
+.toggle span{position:absolute;inset:0;background:#cfd6d1;border-radius:30px;transition:.2s}
+.toggle span:after{content:"";position:absolute;width:21px;height:21px;border-radius:50%;left:3px;top:3px;background:white;box-shadow:0 2px 6px #0002;transition:.2s}
+.toggle input:checked+span{background:var(--green2)}
+.toggle input:checked+span:after{transform:translateX(21px)}
+.preset-row{display:flex;gap:8px;flex-wrap:wrap}
+.preset{border:1px solid #c9d6cf;background:#fff;padding:9px 12px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--green);font-size:12px}
+.preset:hover{background:#eef6f2}
+.summary{padding:24px;position:sticky;top:82px;height:max-content;background:linear-gradient(180deg,#164b3e,#103d34);color:#fff}
+.summary .eyebrow{color:#d8b676}
+.summary h3{font-size:24px;margin:8px 0 20px}
+.sum-line{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.13);font-size:13px}
+.sum-line.total{border:0;padding-top:20px;align-items:end}
+.sum-line.total strong{font-size:31px;letter-spacing:-.03em}
+.summary small{display:block;color:#c4d3cd;line-height:1.5;margin-top:14px}
+.breakdown{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.table-card{padding:22px;overflow:hidden}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#758078;padding:10px 9px;border-bottom:1px solid #d9e0db;white-space:nowrap}
+td{padding:12px 9px;border-bottom:1px solid #edf0ed;vertical-align:top}
+td.money{font-weight:750;white-space:nowrap}
+.source-link{display:inline-flex;text-decoration:none;padding:5px 8px;border-radius:8px;background:#edf5f1;color:var(--green);font-weight:750;font-size:11px}
+.chip{display:inline-flex;padding:5px 8px;border-radius:999px;background:#eff3ef;font-size:11px;font-weight:700;color:#50625a}
+.phase-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.phase{padding:16px;min-height:160px}
+.phase .num{font-size:12px;font-weight:900;color:white;background:var(--green);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.phase h3{font-size:15px;margin:14px 0 8px}
+.phase p{font-size:12px;line-height:1.55;color:var(--muted);margin:0}
+.callout{padding:20px 22px;background:#fff7e8;border:1px solid #eed8a9;border-radius:18px;color:#74541d;line-height:1.6;font-size:13px}
+footer{margin-top:36px;border-top:1px solid #d6ddd7;padding:24px 0 0;color:#758078;font-size:12px;display:flex;justify-content:space-between;gap:18px}
+@media(max-width:1000px){.hero,.planner,.breakdown{grid-template-columns:1fr}.hero-img{min-height:0}.zone-grid{grid-template-columns:repeat(2,1fr)}.phase-grid{grid-template-columns:repeat(3,1fr)}.summary{position:static}}
+@media(max-width:640px){main{padding:16px 13px 48px}.nav a{display:none}.hero-copy{padding:24px}.zone-grid,.phase-grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.section-title{display:block}.section-title p{margin-top:7px}}
+
+.full-concept{padding:12px;overflow:auto;background:#efeae0}
+.full-concept img{display:block;width:100%;height:auto;border-radius:14px;cursor:zoom-in}
+.image-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(9,15,13,.94);display:none;align-items:center;justify-content:center;padding:24px}
+.image-lightbox.open{display:flex}
+.image-lightbox img{max-width:96vw;max-height:92vh;width:auto;height:auto;object-fit:contain;border-radius:12px;box-shadow:0 24px 80px #0008}
+.image-lightbox button{position:absolute;top:18px;right:20px;width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:#17362f;font-size:24px;cursor:pointer;font-weight:800}
+.image-lightbox .hint{position:absolute;left:50%;bottom:15px;transform:translateX(-50%);color:#d8dedb;font-size:12px}
+
+
+.journey-strip{
+  display:flex;align-items:center;gap:10px;overflow:auto;padding:4px 2px 16px
+}
+.journey-step{
+  min-width:170px;display:flex;align-items:center;gap:10px;padding:12px 14px;
+  border:1px solid #d8dfda;border-radius:14px;background:#fffdf8;color:#50605a
+}
+.journey-step b{
+  width:31px;height:31px;border-radius:50%;display:grid;place-items:center;
+  background:#e7efe9;color:var(--green);font-size:12px;flex:0 0 auto
+}
+.journey-step span{font-size:12px;font-weight:750}
+.journey-step.active{border-color:#98b8aa;background:#edf5f1;color:var(--green)}
+.journey-step.pending{opacity:.55;border-style:dashed}
+.journey-arrow{color:#9aa69f;font-weight:900}
+.journey-arrow.muted{opacity:.45}
+.video-feature{
+  display:grid;grid-template-columns:minmax(0,1.55fr) minmax(290px,.65fr);
+  overflow:hidden;background:#111
+}
+.video-feature-player{aspect-ratio:16/9;background:#080c0a}
+.video-feature-player video{width:100%;height:100%;object-fit:contain;display:block;background:#080c0a}
+.video-feature-copy{
+  padding:26px;background:linear-gradient(180deg,#123e34,#0f322a);color:#fff;
+  display:flex;flex-direction:column;justify-content:center
+}
+.video-feature-copy h3{font-size:25px;margin:8px 0 10px}
+.video-feature-copy p{color:#cbd8d2;font-size:13px;line-height:1.65;margin:0 0 18px}
+.video-nav{display:flex;gap:8px;flex-wrap:wrap}
+.video-nav button{
+  border:1px solid rgba(255,255,255,.24);background:transparent;color:white;
+  padding:8px 11px;border-radius:999px;cursor:pointer;font-weight:750;font-size:11px
+}
+.video-nav button.active{background:white;color:var(--green);border-color:white}
+.video-grid.compact{grid-template-columns:repeat(3,1fr);margin-top:16px}
+.video-grid.compact .video-card{cursor:pointer;transition:.2s ease}
+.video-grid.compact .video-card:first-child{grid-column:auto}
+.video-grid.compact .video-card:hover{transform:translateY(-2px)}
+.video-grid.compact .video-card.current{outline:2px solid var(--green)}
+.video-grid.compact video{pointer-events:none}
+.video-note{margin-top:16px}
+.video-note code{background:#fff1d3;padding:2px 5px;border-radius:5px}
+@media(max-width:900px){
+  .video-feature{grid-template-columns:1fr}
+  .video-grid.compact{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="nav">
+    <div class="brand">THỊ TẤM · HCI</div>
+    <a href="#zones">Theo vùng</a><a href="#planner">Tính chi phí</a><a href="#parts">Linh kiện</a><a href="#plan">Kế hoạch</a>
+    <div class="badge">Thiết kế kỹ thuật</div>
+  </div>
+</div>
+
+<main>
+  <section class="hero">
+    <div class="card hero-copy">
+      <div class="eyebrow">Dự toán triển khai hệ thống tương tác 20m</div>
+      <h1>Mỗi vùng là một mô-đun có thể triển khai độc lập.</h1>
+      <p>Website này trực quan hóa bảng <b>“Thị Tấm – Kiến trúc hệ thống và Dự toán kinh phí (2026-09-19)”</b>, đồng thời mapping chi phí theo từng vùng để chủ nhà hàng có thể chọn triển khai 1 vùng trước, 3 vùng hành lang hoặc toàn bộ 4 vùng. Phần mô phỏng hiện có 3 video, mỗi video 10 giây.</p>
+      <div class="kpis">
+        <div class="kpi"><strong>20 m</strong><span>chiều dài lối đi</span></div>
+        <div class="kpi"><strong>2,2 m</strong><span>chiều rộng xấp xỉ</span></div>
+        <div class="kpi"><strong>4 vùng</strong><span>3 hành lang + 1 hồ cá</span></div>
+        <div class="kpi"><strong>3,667 tr</strong><span>phần cứng trực tiếp / vùng</span></div>
+      </div>
+    </div>
+    <div class="card hero-img">
+      <img src="assets/images/concept.png" alt="Concept không gian tương tác Thị Tấm">
+      <div class="caption">Concept: đom đóm · cá ánh sáng · ếch · hoa sen · sương mỏng · hồ cá tương tác</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">
+      <div><div class="eyebrow">Bản concept tổng thể</div><h2>Xem toàn bộ sơ đồ không gian</h2></div>
+      <p>Ảnh được hiển thị theo đúng tỷ lệ gốc, không cắt mất các vùng. Nhấn vào ảnh để mở chế độ xem toàn màn hình.</p>
+    </div>
+    <div class="card full-concept">
+      <img src="assets/images/concept.png" alt="Bản concept tổng thể hệ thống tương tác Thị Tấm" class="zoomable">
+    </div>
+  </section>
+
+  
+  <section class="section" id="experience-video">
+    <div class="section-title">
+      <div>
+        <div class="eyebrow">Mô phỏng trải nghiệm</div>
+        <h2>30 giây hành trình tương tác hiện có</h2>
+      </div>
+      <p>
+        Ba video 10 giây được đặt trực tiếp trong repository GitHub. Website chỉ tải metadata lúc mở trang
+        để không làm nặng trải nghiệm; video chỉ tải đầy đủ khi người xem bấm phát.
+      </p>
+    </div>
+
+    <div class="journey-strip" aria-label="Hành trình video">
+      <div class="journey-step active"><b>01</b><span>Bước vào không gian</span></div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step"><b>02</b><span>Không gian thức tỉnh</span></div>
+      <div class="journey-arrow">→</div>
+      <div class="journey-step"><b>03</b><span>Vùng tương tác sống động</span></div>
+      <div class="journey-arrow muted">→</div>
+      <div class="journey-step pending"><b>04–05</b><span>Sẽ bổ sung</span></div>
+    </div>
+
+    <div class="video-feature card">
+      <div class="video-feature-player">
+        <video id="mainExperienceVideo" controls playsinline preload="metadata">
+          <source src="assets/videos/Use_the_provided_Thị_Tấm_resta.mp4" type="video/mp4">
+          Trình duyệt của bạn không hỗ trợ video HTML5.
+        </video>
+      </div>
+      <div class="video-feature-copy">
+        <div class="eyebrow" id="videoEyebrow">Phân cảnh 01 · 10 giây</div>
+        <h3 id="videoTitle">Bước vào không gian Thị Tấm</h3>
+        <p id="videoDesc">Thiết lập bầu không khí ban đầu và cảm giác chuyển tiếp từ phố Tú Xương vào lối đi trải nghiệm.</p>
+        <div class="video-nav" id="videoNav"></div>
+      </div>
+    </div>
+
+    <div class="video-grid compact" id="videoCards"></div>
+
+    <div class="callout video-note">
+      <b>Hướng phát triển tiếp:</b> khi có thêm Video 4 và Video 5, chỉ cần đặt file vào
+      <code>assets/videos/</code> rồi bổ sung một mục trong danh sách video ở cuối file <code>index.html</code>.
+      Không cần thay đổi layout.
+    </div>
+  </section>
+
+
+  <section id="zones" class="section">
+    <div class="section-title">
+      <div><div class="eyebrow">Mapping theo không gian</div><h2>4 vùng trải nghiệm</h2></div>
+      <p>Mỗi vùng dùng cùng một “bộ cốt lõi”: 1 máy chiếu, 1 camera, giá treo, HDMI, USB chủ động, nguồn điện và giá đỡ camera. Vùng hồ cá được đánh dấu là cần kiểm chứng riêng.</p>
+    </div>
+    <div class="zone-grid" id="zoneGrid"></div>
+  </section>
+
+  <section id="planner" class="section">
+    <div class="section-title">
+      <div><div class="eyebrow">Công cụ duyệt phương án</div><h2>Chọn vùng → thấy ngay chi phí</h2></div>
+      <p>Chọn một hay nhiều vùng, bật/tắt các lớp đa giác quan. Tổng ngân sách tự động cộng dự phòng 15% theo cấu trúc trong bảng dự toán.</p>
+    </div>
+    <div class="planner">
+      <div class="card control-panel">
+        <div class="control-group">
+          <h3>Phương án nhanh</h3>
+          <div class="preset-row">
+            <button class="preset" data-preset="one">1 vùng thử trước</button>
+            <button class="preset" data-preset="three">3 vùng hành lang</button>
+            <button class="preset" data-preset="four">4 vùng cốt lõi</button>
+            <button class="preset" data-preset="full">4 vùng + đa giác quan</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <h3>Chi phí chung</h3>
+          <div class="switch-row">
+            <div><b>Thuê máy chiếu để kiểm chứng onsite</b><div class="desc">550.000đ đã gồm VAT 10%; thực hiện trước khi mua đồng loạt.</div></div>
+            <label class="toggle"><input id="validation" type="checkbox" checked><span></span></label>
+          </div>
+          <div class="switch-row">
+            <div><b>Vật tư phụ theo quy mô</b><div class="desc">Hộp ABS, dây rút, nẹp cáp; 330.000đ cho 1–3 vùng, 660.000đ cho 4 vùng.</div></div>
+            <span class="chip">Tự động</span>
+          </div>
+        </div>
+        <div class="control-group">
+          <h3>Trải nghiệm đa giác quan</h3>
+          <div class="switch-row">
+            <div><b>Sương + bộ điều khiển</b><div class="desc">Áp dụng ở Vùng 1 và/hoặc Vùng 4. Bao gồm máy phun khói, ESP32, rơ-le và 1 can dung dịch dùng chung.</div></div>
+            <label class="toggle"><input id="fog" type="checkbox"><span></span></label>
+          </div>
+          <div class="switch-row">
+            <div><b>Âm thanh phân tán</b><div class="desc">1 cặp loa khi chọn tối đa 2 vùng; 2 cặp khi chọn 3–4 vùng.</div></div>
+            <label class="toggle"><input id="audio" type="checkbox"><span></span></label>
+          </div>
+          <div class="switch-row">
+            <div><b>Mùi hương chuyển tiếp</b><div class="desc">187.000đ; nên kiểm thử để tránh ảnh hưởng cảm nhận món ăn.</div></div>
+            <label class="toggle"><input id="scent" type="checkbox"><span></span></label>
+          </div>
+        </div>
+      </div>
+      <aside class="card summary">
+        <div class="eyebrow">Ngân sách đang chọn</div>
+        <h3 id="sumTitle">4 vùng cốt lõi</h3>
+        <div class="sum-line"><span>Phần cứng theo vùng</span><b id="sumZones">0</b></div>
+        <div class="sum-line"><span>Vật tư phụ</span><b id="sumShared">0</b></div>
+        <div class="sum-line"><span>Kiểm chứng tại hiện trường</span><b id="sumValidation">0</b></div>
+        <div class="sum-line"><span>Đa giác quan</span><b id="sumAddons">0</b></div>
+        <div class="sum-line"><span>Dự phòng 15%</span><b id="sumCont">0</b></div>
+        <div class="sum-line total"><span>Tổng tạm tính</span><strong id="sumTotal">0</strong></div>
+        <small>Chưa gồm: khung cơ khí tùy chỉnh, thi công điện/đi dây, công lắp đặt và PC mới nếu thiết bị hiện có không đáp ứng.</small>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">
+      <div><div class="eyebrow">Chi phí một vùng</div><h2>“Nếu chỉ làm một vùng thì bao nhiêu?”</h2></div>
+      <p>Phần cứng trực tiếp của mỗi vùng giống nhau. Điểm khác biệt nằm ở hiệu ứng bổ sung và điều kiện không gian.</p>
+    </div>
+    <div class="breakdown">
+      <div class="card table-card">
+        <h3 style="margin-top:0">Bộ cốt lõi trực tiếp / vùng</h3>
+        <div class="table-wrap"><table id="zoneParts"></table></div>
+      </div>
+      <div class="card table-card">
+        <h3 style="margin-top:0">Chi phí tham chiếu khi triển khai 01 vùng</h3>
+        <div class="sum-line" style="color:var(--ink)"><span>Bộ cốt lõi trực tiếp</span><b id="oneDirect"></b></div>
+        <div class="sum-line" style="color:var(--ink)"><span>Vật tư phụ tham chiếu</span><b>330.000đ</b></div>
+        <div class="sum-line" style="color:var(--ink)"><span>Kiểm chứng onsite</span><b>550.000đ</b></div>
+        <div class="sum-line" style="color:var(--ink)"><span>Dự phòng 15%</span><b id="oneCont"></b></div>
+        <div class="sum-line total" style="color:var(--ink)"><span><b>Gói 01 vùng tham chiếu</b></span><strong id="oneTotal" style="color:var(--green)"></strong></div>
+        <div class="callout" style="margin-top:18px"><b>Vùng hồ cá:</b> con số trên chỉ là ngân sách tham chiếu. Máy chiếu hồ chỉ nên mua sau khi thử projection trực tiếp trên mặt nước và kiểm tra xem Vùng 3 có thể dùng chung thiết bị hay không.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="parts" class="section">
+    <div class="section-title">
+      <div><div class="eyebrow">Nguồn & linh kiện</div><h2>Danh sách giá có thể kiểm tra lại</h2></div>
+      <p>Nhấn “Mở nguồn” để đối chiếu giá. Giá là snapshot tại thời điểm lập dự toán, không phải báo giá cố định.</p>
+    </div>
+    <div class="card table-card"><div class="table-wrap"><table id="sourceTable"></table></div></div>
+  </section>
+
+  <section id="plan" class="section">
+    <div class="section-title">
+      <div><div class="eyebrow">Kế hoạch triển khai</div><h2>6 bước trước khi test với khách hàng</h2></div>
+      <p>4 máy chiếu và 4 camera là cấu hình dùng để lập ngân sách, không phải số lượng mua cuối cùng.</p>
+    </div>
+    <div class="phase-grid">
+      <div class="card phase"><div class="num">1</div><h3>Khảo sát kỹ thuật</h3><p>Đo lux, vị trí treo, đường cáp, nguồn điện, kích thước vùng chiếu.</p></div>
+      <div class="card phase"><div class="num">2</div><h3>Kiểm chứng onsite</h3><p>Thuê 1 máy chiếu, thử độ sáng, tỷ lệ phóng hình, tracking và hồ cá.</p></div>
+      <div class="card phase"><div class="num">3</div><h3>Khóa thiết kế</h3><p>Chốt 3 hay 4 máy chiếu, camera, khung treo và BOM cuối.</p></div>
+      <div class="card phase"><div class="num">4</div><h3>Mua & lắp</h3><p>Mua thiết bị, thi công cơ khí, điện, tín hiệu và hộp bảo vệ.</p></div>
+      <div class="card phase"><div class="num">5</div><h3>Căn chỉnh</h3><p>Hiệu chỉnh Unity, camera, máy chiếu, âm thanh, sương và cảnh tương tác.</p></div>
+      <div class="card phase"><div class="num">6</div><h3>Đánh giá HCI</h3><p>Quan sát, bảng hỏi và phỏng vấn khách sau trải nghiệm.</p></div>
+    </div>
+  </section>
+
+  <section class="section callout">
+    <b>Điểm cần chủ nhà hàng hiểu khi duyệt:</b> ngân sách phần cứng hiện có giá không bao gồm khung cơ khí tùy chỉnh, thi công điện/đi dây, công lắp đặt và máy tính mới. Những khoản này chỉ có thể chốt sau khảo sát hiện trường và báo giá thi công.
+  </section>
+
+  <footer>
+    <span>Nguồn dữ liệu: “Thị Tấm – Kiến trúc hệ thống và Dự toán kinh phí (2026-09-19)”</span>
+    <span>Website trực quan hóa nội bộ · HCI Project</span>
+  </footer>
+
+<div class="image-lightbox" id="imageLightbox" aria-hidden="true">
+  <button id="lightboxClose" aria-label="Đóng">×</button>
+  <img id="lightboxImg" alt="Xem ảnh toàn màn hình">
+  <div class="hint">Nhấn Esc hoặc × để đóng</div>
+</div>
+
+</main>
+
+<script>
+const DATA = {"zones": [{"id": 1, "name": "Vùng 1 – Cổng chuyển tiếp", "range": "0–4 m từ Tú Xương", "experience": "Gợn nước, sen nở, đom đóm chào khách", "note": "Điểm mở đầu hành trình. Phù hợp triển khai độc lập để thử phản ứng của khách.", "accent": "#D8A85A"}, {"id": 2, "name": "Vùng 2 – Con đường sống động", "range": "Khoảng 7–12 m", "experience": "Cá né chân, ếch nhảy, đom đóm, cánh hoa", "note": "Vùng tương tác mạnh nhất cho trẻ em; phù hợp làm vùng trình diễn chính.", "accent": "#6E9F72"}, {"id": 3, "name": "Vùng 3 – Dẫn vào nhà hàng", "range": "Khoảng 15–20 m", "experience": "Sen, ánh sáng, chuyển cảnh dẫn vào không gian trong", "note": "Tạo cao trào trước khi khách bước vào khu hồ và khu ăn uống.", "accent": "#C985A4"}, {"id": 4, "name": "Vùng 4 – Hồ cá", "range": "Không gian hồ bên trong", "experience": "Cá ánh sáng, cá tụ/tản, gợn nước, sen", "note": "Máy chiếu riêng cho hồ chỉ chốt sau khi thử trực tiếp trên mặt nước.", "accent": "#4C91A6"}], "zoneComponents": [{"name": "Máy chiếu ViewSonic PJD6543W cũ", "price": 1900000, "qty": 1, "group": "Trình chiếu", "source": "https://shopee.vn/M%C3%A1y-chi%E1%BA%BFu-c%C5%A9-Viewsonic-PJD6543W-k%E1%BA%BFt-n%E1%BB%91i-hdmi-i.747092226.54865821036"}, {"name": "Camera Logitech C930e cũ / đẹp", "price": 800000, "qty": 1, "group": "Theo dõi", "source": "https://lapvip.com.vn/webcam-may-tinh-p7426?attr_id=2592"}, {"name": "Giá treo máy chiếu đa năng", "price": 179000, "qty": 1, "group": "Giá đỡ", "source": "https://shopee.vn/Gi%C3%A1-treo-m%C3%A1y-chi%E1%BA%BFu-%C4%91a-n%C4%83ng-60cm-i.82251149.1679860086"}, {"name": "Cáp HDMI 10 m", "price": 250000, "qty": 1, "group": "Tín hiệu", "source": "https://shopee.vn/D%C3%A2y-HDMI-10m-i.28420791.2282034901"}, {"name": "UGREEN UG-10321 – USB 2.0 chủ động 10 m", "price": 279000, "qty": 1, "group": "Tín hiệu", "source": "https://hacom.vn/cap-usb-2-0-noi-dai-10m-ugreen-ug-10321-co-chip-khuech-dai"}, {"name": "Ổ cắm Huntkey dây 3 m, 2500W", "price": 139000, "qty": 1, "group": "Nguồn điện", "source": "https://shopee.vn/Huntkey-%E1%BB%94-c%E1%BA%A5m-%C4%91i%E1%BB%87n-ch%E1%BB%91ng-ch%C3%A1y-D%C3%A2y-d%C3%A0i-3M-C%C3%B4ng-su%E1%BA%A5t-t%E1%BB%91i-%C4%91a-2500W-250V-10A-50-60Hz-B%E1%BA%A3o-h%C3%A0nh-2-n%C4%83m-i.52797090.45753230337"}, {"name": "Chân máy / giá đỡ camera ren 1/4″", "price": 120000, "qty": 1, "group": "Giá đỡ", "source": "https://shopee.vn/Tripod-K%E1%BA%B9p-B%C3%A0n-Mini-C%C3%B3-Ballhead-1-4-G%E1%BA%AFn-Camera-%C4%90i%E1%BB%87n-Tho%E1%BA%A1i-%C4%90%C3%A8n-Livestream-i.1787935867.49510371550"}], "sharedComponents": [{"name": "Hộp ABS 200×120×75 mm", "price_full": 80000, "price_small": 40000, "source": "https://shopee.vn/H%E1%BB%99p-Nh%E1%BB%B1a-ABS-m%C3%A0u-%C4%91en-200x120x75mm-WANCHI-linh-ki%E1%BB%87n-%C4%91i%E1%BB%87n-t%E1%BB%AD-TAHIKA-i.1032698661.22076101348"}, {"name": "Dây rút nhựa", "price_full": 20000, "price_small": 10000, "source": "https://dientuduchuy.com/products/day-rut-nhua-dai-3-x-200mm-ban-rong-3mm-1-bo-100-cai-mau-trang"}, {"name": "Nẹp bán nguyệt D40", "price_full": 560000, "price_small": 280000, "source": "https://shopee.vn/N%E1%BA%B9p-b%C3%A1n-nguy%E1%BB%87t-lu%E1%BB%93n-d%C3%A2y-%C4%91i%E1%BB%87n-N%E1%BA%B9p-D40-lu%E1%BB%93n-d%C3%A2y-%C4%91i%E1%BB%87n-n%E1%BA%B9p-%C4%91i-d%C3%A2y-%C4%91i%E1%BB%87n-b%C3%A1n-nguy%E1%BB%87t-D40-i.1018242968.25876009819"}], "validation": 550000, "contingency": 0.15, "addons": {"fogUnit": 1160000, "fogFluid": 349000, "esp32": 125000, "relay": 65000, "speakerPair": 379000, "scent": 187000}, "sheetScenarios": {"threeZones": 13663150, "fourZones": 18259700, "full": 22852800}, "sources": [{"group": "Kiểm chứng", "name": "Thuê máy chiếu 3.600 ANSI / 1 ngày", "price": 550000, "url": "https://adavi.vn/dich-vu/cho-thue-may-chieu-bong-chup-anh-trong-studio-o-tphcm-562.html", "status": "Đã kiểm tra"}, {"group": "Trình chiếu", "name": "Máy chiếu ViewSonic PJD6543W cũ", "price": 1900000, "url": "https://shopee.vn/M%C3%A1y-chi%E1%BA%BFu-c%C5%A9-Viewsonic-PJD6543W-k%E1%BA%BFt-n%E1%BB%91i-hdmi-i.747092226.54865821036", "status": "Đã có nguồn"}, {"group": "Theo dõi", "name": "Camera Logitech C930e cũ / đẹp", "price": 800000, "url": "https://lapvip.com.vn/webcam-may-tinh-p7426?attr_id=2592", "status": "Đã có nguồn"}, {"group": "Giá đỡ", "name": "Giá treo máy chiếu đa năng", "price": 179000, "url": "https://shopee.vn/Gi%C3%A1-treo-m%C3%A1y-chi%E1%BA%BFu-%C4%91a-n%C4%83ng-60cm-i.82251149.1679860086", "status": "Đã có nguồn"}, {"group": "Tín hiệu", "name": "Cáp HDMI 10 m", "price": 250000, "url": "https://shopee.vn/D%C3%A2y-HDMI-10m-i.28420791.2282034901", "status": "Đã có nguồn"}, {"group": "Tín hiệu", "name": "UGREEN UG-10321 – USB 2.0 chủ động 10 m", "price": 279000, "url": "https://hacom.vn/cap-usb-2-0-noi-dai-10m-ugreen-ug-10321-co-chip-khuech-dai", "status": "Đã có nguồn"}, {"group": "Nguồn điện", "name": "Ổ cắm Huntkey dây 3 m, 2500W", "price": 139000, "url": "https://shopee.vn/Huntkey-%E1%BB%94-c%E1%BA%A5m-%C4%91i%E1%BB%87n-ch%E1%BB%91ng-ch%C3%A1y-D%C3%A2y-d%C3%A0i-3M-C%C3%B4ng-su%E1%BA%A5t-t%E1%BB%91i-%C4%91a-2500W-250V-10A-50-60Hz-B%E1%BA%A3o-h%C3%A0nh-2-n%C4%83m-i.52797090.45753230337", "status": "Đã có nguồn"}, {"group": "Giá đỡ", "name": "Chân máy / giá đỡ camera ren 1/4″", "price": 120000, "url": "https://shopee.vn/Tripod-K%E1%BA%B9p-B%C3%A0n-Mini-C%C3%B3-Ballhead-1-4-G%E1%BA%AFn-Camera-%C4%90i%E1%BB%87n-Tho%E1%BA%A1i-%C4%90%C3%A8n-Livestream-i.1787935867.49510371550", "status": "Đã có nguồn"}, {"group": "Bảo vệ", "name": "Hộp ABS 200×120×75 mm", "price": 40000, "url": "https://shopee.vn/H%E1%BB%99p-Nh%E1%BB%B1a-ABS-m%C3%A0u-%C4%91en-200x120x75mm-WANCHI-linh-ki%E1%BB%87n-%C4%91i%E1%BB%87n-t%E1%BB%AD-TAHIKA-i.1032698661.22076101348", "status": "Đã kiểm tra"}, {"group": "Lắp đặt", "name": "Dây rút nhựa – 1 bó", "price": 10000, "url": "https://dientuduchuy.com/products/day-rut-nhua-dai-3-x-200mm-ban-rong-3mm-1-bo-100-cai-mau-trang", "status": "Đã có nguồn"}, {"group": "Lắp đặt", "name": "Nẹp bán nguyệt D40 – 2 m", "price": 280000, "url": "https://shopee.vn/N%E1%BA%B9p-b%C3%A1n-nguy%E1%BB%87t-lu%E1%BB%93n-d%C3%A2y-%C4%91i%E1%BB%87n-N%E1%BA%B9p-D40-lu%E1%BB%93n-d%C3%A2y-%C4%91i%E1%BB%87n-n%E1%BA%B9p-%C4%91i-d%C3%A2y-%C4%91i%E1%BB%87n-b%C3%A1n-nguy%E1%BB%87t-D40-i.1018242968.25876009819", "status": "Đã có nguồn"}, {"group": "Điều khiển", "name": "ESP32 WROOM-32 DevKitC V1", "price": 125000, "url": "https://dientuduchuy.com/products/esp32-wroom-32-30pin-devkitc-v1-ch340c-usb-type-c-wifi-bluetooth", "status": "Đã có nguồn"}, {"group": "Điều khiển", "name": "Module 4 kênh rơ-le 5V 10A", "price": 65000, "url": "https://dientuduchuy.com/products/module-4-relay-5v-10a-co-jumper-kich-high-low-trigger-opto-cach-ly", "status": "Đã có nguồn"}, {"group": "Sương", "name": "Máy phun khói 900W", "price": 1160000, "url": "https://shopee.vn/M%C3%A1y-phun-kh%C3%B3i-900w-M%C3%A1y-t%E1%BA%A1o-kh%C3%B3i-900w-May-kh%C3%B3i-900w-c%C3%B3-%C4%91i%E1%BB%81u-khi%E1%BB%83n-t%E1%BB%AB-xa-i.51258771.1811058740", "status": "Đã có nguồn"}, {"group": "Sương", "name": "Dung dịch nước tạo khói 5L", "price": 349000, "url": "https://vinakara.com/nuoc-tao-khoi", "status": "Đã có nguồn"}, {"group": "Mùi hương", "name": "Máy khuếch tán tinh dầu 500 ml", "price": 187000, "url": "https://shopee.vn/M%C3%A1y-Khu%E1%BA%BFch-T%C3%A1n-Tinh-D%E1%BA%A7u-500ml-C%C3%B3-%C4%90i%E1%BB%81u-Khi%E1%BB%83n-M%C3%A1y-Phun-S%C6%B0%C6%A1ng-Mini-T%E1%BA%A1o-%C4%90%E1%BB%99-%E1%BA%A8m-H%C6%B0%C6%A1ng-Th%C6%A1m-i.410387853.54311226580", "status": "Đã kiểm tra"}, {"group": "Âm thanh", "name": "SoundMax A180 2.0 / 10W", "price": 379000, "url": "https://fptshop.com.vn/phu-kien/loa-2-0-soundmax-a180", "status": "Đã kiểm tra"}]};
+const money = n => new Intl.NumberFormat('vi-VN').format(Math.round(n)) + 'đ';
+const directPerZone = DATA.zoneComponents.reduce((s,x)=>s+x.price*x.qty,0);
+let selected = new Set([1,2,3,4]);
+
+function renderZones(){
+  const root=document.getElementById('zoneGrid');
+  root.innerHTML=DATA.zones.map(z=>`
+    <label class="card zone ${selected.has(z.id)?'selected':''}" style="--zone:${z.accent}">
+      <input type="checkbox" data-zone="${z.id}" ${selected.has(z.id)?'checked':''}>
+      <span class="zone-no">${z.id}</span>
+      <div class="range">${z.range}</div>
+      <h3>${z.name.replace(/^Vùng \d – /,'')}</h3>
+      <p><b>${z.experience}</b><br>${z.note}</p>
+      <div class="zone-cost"><strong>${money(directPerZone)}</strong><span>phần cứng trực tiếp<br>/ vùng</span></div>
+    </label>`).join('');
+  root.querySelectorAll('input[data-zone]').forEach(el=>el.addEventListener('change',e=>{
+    const id=+e.target.dataset.zone;
+    e.target.checked?selected.add(id):selected.delete(id);
+    
+document.querySelectorAll('.hero-img img, .zoomable').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    const lb=document.getElementById('imageLightbox');
+    const li=document.getElementById('lightboxImg');
+    li.src=img.src;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden','false');
+  });
+});
+const closeLightbox=()=>{
+  const lb=document.getElementById('imageLightbox');
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden','true');
+};
+document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
+document.getElementById('imageLightbox').addEventListener('click',e=>{
+  if(e.target.id==='imageLightbox') closeLightbox();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+
+
+const EXPERIENCE_VIDEOS = [
+  {
+    src: "assets/videos/Use_the_provided_Thị_Tấm_resta.mp4",
+    label: "Phân cảnh 01 · 10 giây",
+    title: "Bước vào không gian Thị Tấm",
+    desc: "Thiết lập bầu không khí ban đầu và cảm giác chuyển tiếp từ phố Tú Xương vào lối đi trải nghiệm."
+  },
+  {
+    src: "assets/videos/Tiếp_tục_tạo_VIDEO_—_–_s.mp4",
+    label: "Phân cảnh 02 · 10 giây",
+    title: "Không gian bắt đầu thức tỉnh",
+    desc: "Các lớp ánh sáng, sương và hiệu ứng phản ứng dần xuất hiện, dẫn khách sâu hơn vào hành trình."
+  },
+  {
+    src: "assets/videos/Tiếp_tục_tạo_video_Vùng_–_“T.mp4",
+    label: "Phân cảnh 03 · 10 giây",
+    title: "Vùng tương tác sống động",
+    desc: "Tăng mật độ chuyển động và tương tác: cá ánh sáng, đom đóm, sen, gợn nước và các hiệu ứng dành cho trẻ em."
+  }
+];
+
+const mainVideo = document.getElementById('mainExperienceVideo');
+const videoEyebrow = document.getElementById('videoEyebrow');
+const videoTitle = document.getElementById('videoTitle');
+const videoDesc = document.getElementById('videoDesc');
+const videoNav = document.getElementById('videoNav');
+const videoCards = document.getElementById('videoCards');
+
+function selectExperienceVideo(index, autoplay=false){
+  const item = EXPERIENCE_VIDEOS[index];
+  if(!item) return;
+  const wasPlaying = !mainVideo.paused;
+  mainVideo.pause();
+  mainVideo.src = item.src;
+  mainVideo.load();
+  videoEyebrow.textContent = item.label;
+  videoTitle.textContent = item.title;
+  videoDesc.textContent = item.desc;
+
+  [...videoNav.children].forEach((b,i)=>b.classList.toggle('active',i===index));
+  [...videoCards.children].forEach((c,i)=>c.classList.toggle('current',i===index));
+
+  if(autoplay || wasPlaying){
+    mainVideo.play().catch(()=>{});
+  }
+}
+
+videoNav.innerHTML = EXPERIENCE_VIDEOS.map((v,i)=>
+  `<button type="button" data-video-index="${i}" class="${i===0?'active':''}">0${i+1}</button>`
+).join('');
+
+videoCards.innerHTML = EXPERIENCE_VIDEOS.map((v,i)=>`
+  <article class="video-card ${i===0?'current':''}" data-video-index="${i}">
+    <div class="video-wrap">
+      <video muted playsinline preload="metadata">
+        <source src="${v.src}" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-info">
+      <span>${v.label}</span>
+      <h3>${v.title}</h3>
+      <p>${v.desc}</p>
+    </div>
+  </article>
+`).join('');
+
+videoNav.addEventListener('click', e=>{
+  const btn = e.target.closest('[data-video-index]');
+  if(!btn) return;
+  selectExperienceVideo(+btn.dataset.videoIndex, false);
+});
+videoCards.addEventListener('click', e=>{
+  const card = e.target.closest('[data-video-index]');
+  if(!card) return;
+  selectExperienceVideo(+card.dataset.videoIndex, true);
+  document.querySelector('.video-feature').scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+
+renderZones(); calc();
+  }));
+}
+
+function sharedCost(n){
+  if(!n) return 0;
+  return n===4 ? 660000 : 330000;
+}
+function fogCost(){
+  if(!document.getElementById('fog').checked) return 0;
+  const endpoints=[1,4].filter(id=>selected.has(id)).length;
+  if(!endpoints) return 0;
+  return endpoints*(DATA.addons.fogUnit+DATA.addons.esp32+DATA.addons.relay)+DATA.addons.fogFluid;
+}
+function audioCost(){
+  if(!document.getElementById('audio').checked || selected.size===0) return 0;
+  return DATA.addons.speakerPair*(selected.size<=2?1:2);
+}
+function scentCost(){
+  return document.getElementById('scent').checked && selected.size ? DATA.addons.scent : 0;
+}
+function calc(){
+  const n=selected.size;
+  const zones=n*directPerZone;
+  const shared=sharedCost(n);
+  const validation=document.getElementById('validation').checked && n ? DATA.validation : 0;
+  const addons=fogCost()+audioCost()+scentCost();
+  const subtotal=zones+shared+validation+addons;
+  const cont=subtotal*DATA.contingency;
+  const total=subtotal+cont;
+  document.getElementById('sumZones').textContent=money(zones);
+  document.getElementById('sumShared').textContent=money(shared);
+  document.getElementById('sumValidation').textContent=money(validation);
+  document.getElementById('sumAddons').textContent=money(addons);
+  document.getElementById('sumCont').textContent=money(cont);
+  document.getElementById('sumTotal').textContent=money(total);
+  document.getElementById('sumTitle').textContent=n?`${n} vùng đang chọn`:'Chưa chọn vùng';
+}
+['validation','fog','audio','scent'].forEach(id=>document.getElementById(id).addEventListener('change',calc));
+
+document.querySelectorAll('[data-preset]').forEach(btn=>btn.addEventListener('click',()=>{
+  const p=btn.dataset.preset;
+  document.getElementById('validation').checked=true;
+  document.getElementById('fog').checked=false;
+  document.getElementById('audio').checked=false;
+  document.getElementById('scent').checked=false;
+  if(p==='one') selected=new Set([2]);
+  if(p==='three') selected=new Set([1,2,3]);
+  if(p==='four') selected=new Set([1,2,3,4]);
+  if(p==='full') {
+    selected=new Set([1,2,3,4]);
+    document.getElementById('fog').checked=true;
+    document.getElementById('audio').checked=true;
+    document.getElementById('scent').checked=true;
+  }
+  
+document.querySelectorAll('.hero-img img, .zoomable').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    const lb=document.getElementById('imageLightbox');
+    const li=document.getElementById('lightboxImg');
+    li.src=img.src;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden','false');
+  });
+});
+const closeLightbox=()=>{
+  const lb=document.getElementById('imageLightbox');
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden','true');
+};
+document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
+document.getElementById('imageLightbox').addEventListener('click',e=>{
+  if(e.target.id==='imageLightbox') closeLightbox();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+
+renderZones(); calc();
+  document.getElementById('planner').scrollIntoView({behavior:'smooth',block:'start'});
+}));
+
+const zp=document.getElementById('zoneParts');
+zp.innerHTML=`<thead><tr><th>Linh kiện</th><th>Nhóm</th><th>Chi phí</th></tr></thead><tbody>`+
+ DATA.zoneComponents.map(x=>`<tr><td>${x.name}</td><td><span class="chip">${x.group}</span></td><td class="money">${money(x.price)}</td></tr>`).join('')+
+ `<tr><td><b>Tổng / vùng</b></td><td></td><td class="money"><b>${money(directPerZone)}</b></td></tr></tbody>`;
+document.getElementById('oneDirect').textContent=money(directPerZone);
+const oneSubtotal=directPerZone+330000+DATA.validation;
+document.getElementById('oneCont').textContent=money(oneSubtotal*DATA.contingency);
+document.getElementById('oneTotal').textContent=money(oneSubtotal*(1+DATA.contingency));
+
+const st=document.getElementById('sourceTable');
+st.innerHTML=`<thead><tr><th>Nhóm</th><th>Linh kiện</th><th>Giá</th><th>Trạng thái</th><th>Nguồn</th></tr></thead><tbody>`+
+ DATA.sources.map(x=>`<tr><td><span class="chip">${x.group}</span></td><td>${x.name}</td><td class="money">${money(x.price)}</td><td>${x.status}</td><td><a class="source-link" href="${x.url}" target="_blank" rel="noopener">Mở nguồn ↗</a></td></tr>`).join('')+
+ `</tbody>`;
+
+
+document.querySelectorAll('.hero-img img, .zoomable').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    const lb=document.getElementById('imageLightbox');
+    const li=document.getElementById('lightboxImg');
+    li.src=img.src;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden','false');
+  });
+});
+const closeLightbox=()=>{
+  const lb=document.getElementById('imageLightbox');
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden','true');
+};
+document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
+document.getElementById('imageLightbox').addEventListener('click',e=>{
+  if(e.target.id==='imageLightbox') closeLightbox();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+
+renderZones(); calc();
+</script>
+</body>
+</html>
