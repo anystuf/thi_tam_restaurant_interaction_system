@@ -207,10 +207,10 @@ footer{margin-top:36px;border-top:1px solid #d6ddd7;padding:24px 0 0;color:#7580
     <div class="section-title">
       <div>
         <div class="eyebrow">Mô phỏng trải nghiệm</div>
-        <h2>20 giây hành trình tương tác</h2>
+        <h2>Hành trình tương tác</h2>
       </div>
       <p>
-        Hai video 10 giây được phát theo đúng trình tự đã chọn. Website chỉ tải metadata lúc mở trang
+        Hai video được phát theo đúng trình tự đã chọn. Website chỉ tải metadata lúc mở trang
         để không làm nặng trải nghiệm; video chỉ tải đầy đủ khi người xem bấm phát.
       </p>
     </div>
@@ -243,7 +243,7 @@ footer{margin-top:36px;border-top:1px solid #d6ddd7;padding:24px 0 0;color:#7580
     <div class="video-grid compact" id="videoCards"></div>
 
     <div class="callout video-note">
-      <b>Trình tự phát:</b> Video 01 → Video 02. Khi Video 01 phát xong, website sẽ tự động chuyển sang Video 02.
+      <b>Trình tự phát:</b> Video 01 → Video 02. Khi Video 01 kết thúc, website tự chuyển sang Video 02 và tiếp tục phát.
     </div>
   </section>
 
@@ -375,58 +375,178 @@ footer{margin-top:36px;border-top:1px solid #d6ddd7;padding:24px 0 0;color:#7580
 
 </main>
 
+
 <script>
 const DATA = {"zones": [{"id": 1, "name": "Vùng 1 – Cổng chuyển tiếp", "range": "0–4 m từ Tú Xương", "experience": "Gợn nước, sen nở, đom đóm chào khách", "note": "Điểm mở đầu hành trình. Phù hợp triển khai độc lập để thử phản ứng của khách.", "accent": "#D8A85A"}, {"id": 2, "name": "Vùng 2 – Con đường sống động", "range": "Khoảng 7–12 m", "experience": "Cá né chân, ếch nhảy, đom đóm, cánh hoa", "note": "Vùng tương tác mạnh nhất cho trẻ em; phù hợp làm vùng trình diễn chính.", "accent": "#6E9F72"}, {"id": 3, "name": "Vùng 3 – Dẫn vào nhà hàng", "range": "Khoảng 15–20 m", "experience": "Sen, ánh sáng, chuyển cảnh dẫn vào không gian trong", "note": "Tạo cao trào trước khi khách bước vào khu hồ và khu ăn uống.", "accent": "#C985A4"}, {"id": 4, "name": "Vùng 4 – Hồ cá", "range": "Không gian hồ bên trong", "experience": "Cá ánh sáng, cá tụ/tản, gợn nước, sen", "note": "Máy chiếu riêng cho hồ chỉ chốt sau khi thử trực tiếp trên mặt nước.", "accent": "#4C91A6"}], "zoneComponents": [{"name": "Máy chiếu ViewSonic PJD6543W cũ", "price": 1900000, "qty": 1, "group": "Trình chiếu", "source": "https://shopee.vn/M%C3%A1y-chi%E1%BA%BFu-c%C5%A9-Viewsonic-PJD6543W-k%E1%BA%BFt-n%E1%BB%91i-hdmi-i.747092226.54865821036"}, {"name": "Camera Logitech C930e cũ / đẹp", "price": 800000, "qty": 1, "group": "Theo dõi", "source": "https://lapvip.com.vn/webcam-may-tinh-p7426?attr_id=2592"}, {"name": "Giá treo máy chiếu đa năng", "price": 179000, "qty": 1, "group": "Giá đỡ", "source": "https://shopee.vn/Gi%C3%A1-treo-m%C3%A1y-chi%E1%BA%BFu-%C4%91a-n%C4%83ng-60cm-i.82251149.1679860086"}, {"name": "Cáp HDMI 10 m", "price": 250000, "qty": 1, "group": "Tín hiệu", "source": "https://shopee.vn/D%C3%A2y-HDMI-10m-i.28420791.2282034901"}, {"name": "UGREEN UG-10321 – USB 2.0 chủ động 10 m", "price": 279000, "qty": 1, "group": "Tín hiệu", "source": "https://hacom.vn/cap-usb-2-0-noi-dai-10m-ugreen-ug-10321-co-chip-khuech-dai"}, {"name": "Ổ cắm Huntkey dây 3 m, 2500W", "price": 139000, "qty": 1, "group": "Nguồn điện", "source": "https://shopee.vn/Huntkey-%E1%BB%94-c%E1%BA%A5m-%C4%91i%E1%BB%87n-ch%E1%BB%91ng-ch%C3%A1y-D%C3%A2y-d%C3%A0i-3M-C%C3%B4ng-su%E1%BA%A5t-t%E1%BB%91i-%C4%91a-2500W-250V-10A-50-60Hz-B%E1%BA%A3o-h%C3%A0nh-2-n%C4%83m-i.52797090.45753230337"}, {"name": "Chân máy / giá đỡ camera ren 1/4″", "price": 120000, "qty": 1, "group": "Giá đỡ", "source": "https://shopee.vn/Tripod-K%E1%BA%B9p-B%C3%A0n-Mini-C%C3%B3-Ballhead-1-4-G%E1%BA%AFn-Camera-%C4%90i%E1%BB%87n-Tho%E1%BA%A1i-%C4%90%C3%A8n-Livestream-i.1787935867.49510371550"}], "sharedComponents": [{"name": "Hộp ABS 200×120×75 mm", "price_full": 80000, "price_small": 40000, "source": "https://shopee.vn/H%E1%BB%99p-Nh%E1%BB%B1a-ABS-m%C3%A0u-%C4%91en-200x120x75mm-WANCHI-linh-ki%E1%BB%87n-%C4%91i%E1%BB%87n-t%E1%BB%AD-TAHIKA-i.1032698661.22076101348"}, {"name": "Dây rút nhựa", "price_full": 20000, "price_small": 10000, "source": "https://dientuduchuy.com/products/day-rut-nhua-dai-3-x-200mm-ban-rong-3mm-1-bo-100-cai-mau-trang"}, {"name": "Nẹp bán nguyệt D40", "price_full": 560000, "price_small": 280000, "source": "https://shopee.vn/N%E1%BA%B9p-b%C3%A1n-nguy%E1%BB%87t-lu%E1%BB%93n-d%C3%A2y-%C4%91i%E1%BB%87n-N%E1%BA%B9p-D40-lu%E1%BB%93n-d%C3%A2y-%C4%91i%E1%BB%87n-n%E1%BA%B9p-%C4%91i-d%C3%A2y-%C4%91i%E1%BB%87n-b%C3%A1n-nguy%E1%BB%87t-D40-i.1018242968.25876009819"}], "validation": 550000, "contingency": 0.15, "addons": {"fogUnit": 1160000, "fogFluid": 349000, "esp32": 125000, "relay": 65000, "speakerPair": 379000, "scent": 187000}, "sheetScenarios": {"threeZones": 13663150, "fourZones": 18259700, "full": 22852800}, "sources": [{"group": "Kiểm chứng", "name": "Thuê máy chiếu 3.600 ANSI / 1 ngày", "price": 550000, "url": "https://adavi.vn/dich-vu/cho-thue-may-chieu-bong-chup-anh-trong-studio-o-tphcm-562.html", "status": "Đã kiểm tra"}, {"group": "Trình chiếu", "name": "Máy chiếu ViewSonic PJD6543W cũ", "price": 1900000, "url": "https://shopee.vn/M%C3%A1y-chi%E1%BA%BFu-c%C5%A9-Viewsonic-PJD6543W-k%E1%BA%BFt-n%E1%BB%91i-hdmi-i.747092226.54865821036", "status": "Đã có nguồn"}, {"group": "Theo dõi", "name": "Camera Logitech C930e cũ / đẹp", "price": 800000, "url": "https://lapvip.com.vn/webcam-may-tinh-p7426?attr_id=2592", "status": "Đã có nguồn"}, {"group": "Giá đỡ", "name": "Giá treo máy chiếu đa năng", "price": 179000, "url": "https://shopee.vn/Gi%C3%A1-treo-m%C3%A1y-chi%E1%BA%BFu-%C4%91a-n%C4%83ng-60cm-i.82251149.1679860086", "status": "Đã có nguồn"}, {"group": "Tín hiệu", "name": "Cáp HDMI 10 m", "price": 250000, "url": "https://shopee.vn/D%C3%A2y-HDMI-10m-i.28420791.2282034901", "status": "Đã có nguồn"}, {"group": "Tín hiệu", "name": "UGREEN UG-10321 – USB 2.0 chủ động 10 m", "price": 279000, "url": "https://hacom.vn/cap-usb-2-0-noi-dai-10m-ugreen-ug-10321-co-chip-khuech-dai", "status": "Đã có nguồn"}, {"group": "Nguồn điện", "name": "Ổ cắm Huntkey dây 3 m, 2500W", "price": 139000, "url": "https://shopee.vn/Huntkey-%E1%BB%94-c%E1%BA%A5m-%C4%91i%E1%BB%87n-ch%E1%BB%91ng-ch%C3%A1y-D%C3%A2y-d%C3%A0i-3M-C%C3%B4ng-su%E1%BA%A5t-t%E1%BB%91i-%C4%91a-2500W-250V-10A-50-60Hz-B%E1%BA%A3o-h%C3%A0nh-2-n%C4%83m-i.52797090.45753230337", "status": "Đã có nguồn"}, {"group": "Giá đỡ", "name": "Chân máy / giá đỡ camera ren 1/4″", "price": 120000, "url": "https://shopee.vn/Tripod-K%E1%BA%B9p-B%C3%A0n-Mini-C%C3%B3-Ballhead-1-4-G%E1%BA%AFn-Camera-%C4%90i%E1%BB%87n-Tho%E1%BA%A1i-%C4%90%C3%A8n-Livestream-i.1787935867.49510371550", "status": "Đã có nguồn"}, {"group": "Bảo vệ", "name": "Hộp ABS 200×120×75 mm", "price": 40000, "url": "https://shopee.vn/H%E1%BB%99p-Nh%E1%BB%B1a-ABS-m%C3%A0u-%C4%91en-200x120x75mm-WANCHI-linh-ki%E1%BB%87n-%C4%91i%E1%BB%87n-t%E1%BB%AD-TAHIKA-i.1032698661.22076101348", "status": "Đã kiểm tra"}, {"group": "Lắp đặt", "name": "Dây rút nhựa – 1 bó", "price": 10000, "url": "https://dientuduchuy.com/products/day-rut-nhua-dai-3-x-200mm-ban-rong-3mm-1-bo-100-cai-mau-trang", "status": "Đã có nguồn"}, {"group": "Lắp đặt", "name": "Nẹp bán nguyệt D40 – 2 m", "price": 280000, "url": "https://shopee.vn/N%E1%BA%B9p-b%C3%A1n-nguy%E1%BB%87t-lu%E1%BB%93n-d%C3%A2y-%C4%91i%E1%BB%87n-N%E1%BA%B9p-D40-lu%E1%BB%93n-d%C3%A2y-%C4%91i%E1%BB%87n-n%E1%BA%B9p-%C4%91i-d%C3%A2y-%C4%91i%E1%BB%87n-b%C3%A1n-nguy%E1%BB%87t-D40-i.1018242968.25876009819", "status": "Đã có nguồn"}, {"group": "Điều khiển", "name": "ESP32 WROOM-32 DevKitC V1", "price": 125000, "url": "https://dientuduchuy.com/products/esp32-wroom-32-30pin-devkitc-v1-ch340c-usb-type-c-wifi-bluetooth", "status": "Đã có nguồn"}, {"group": "Điều khiển", "name": "Module 4 kênh rơ-le 5V 10A", "price": 65000, "url": "https://dientuduchuy.com/products/module-4-relay-5v-10a-co-jumper-kich-high-low-trigger-opto-cach-ly", "status": "Đã có nguồn"}, {"group": "Sương", "name": "Máy phun khói 900W", "price": 1160000, "url": "https://shopee.vn/M%C3%A1y-phun-kh%C3%B3i-900w-M%C3%A1y-t%E1%BA%A1o-kh%C3%B3i-900w-May-kh%C3%B3i-900w-c%C3%B3-%C4%91i%E1%BB%81u-khi%E1%BB%83n-t%E1%BB%AB-xa-i.51258771.1811058740", "status": "Đã có nguồn"}, {"group": "Sương", "name": "Dung dịch nước tạo khói 5L", "price": 349000, "url": "https://vinakara.com/nuoc-tao-khoi", "status": "Đã có nguồn"}, {"group": "Mùi hương", "name": "Máy khuếch tán tinh dầu 500 ml", "price": 187000, "url": "https://shopee.vn/M%C3%A1y-Khu%E1%BA%BFch-T%C3%A1n-Tinh-D%E1%BA%A7u-500ml-C%C3%B3-%C4%90i%E1%BB%81u-Khi%E1%BB%83n-M%C3%A1y-Phun-S%C6%B0%C6%A1ng-Mini-T%E1%BA%A1o-%C4%90%E1%BB%99-%E1%BA%A8m-H%C6%B0%C6%A1ng-Th%C6%A1m-i.410387853.54311226580", "status": "Đã kiểm tra"}, {"group": "Âm thanh", "name": "SoundMax A180 2.0 / 10W", "price": 379000, "url": "https://fptshop.com.vn/phu-kien/loa-2-0-soundmax-a180", "status": "Đã kiểm tra"}]};
+
 const money = n => new Intl.NumberFormat('vi-VN').format(Math.round(n)) + 'đ';
 const directPerZone = DATA.zoneComponents.reduce((s,x)=>s+x.price*x.qty,0);
 let selected = new Set([1,2,3,4]);
 
-function renderZones(){
-  const root=document.getElementById('zoneGrid');
-  root.innerHTML=DATA.zones.map(z=>`
+function renderZones() {
+  const root = document.getElementById('zoneGrid');
+  if (!root) return;
+  root.innerHTML = DATA.zones.map(z => `
     <label class="card zone ${selected.has(z.id)?'selected':''}" style="--zone:${z.accent}">
       <input type="checkbox" data-zone="${z.id}" ${selected.has(z.id)?'checked':''}>
       <span class="zone-no">${z.id}</span>
       <div class="range">${z.range}</div>
       <h3>${z.name.replace(/^Vùng \d – /,'')}</h3>
       <p><b>${z.experience}</b><br>${z.note}</p>
-      <div class="zone-cost"><strong>${money(directPerZone)}</strong><span>phần cứng trực tiếp<br>/ vùng</span></div>
+      <div class="zone-cost">
+        <strong>${money(directPerZone)}</strong>
+        <span>phần cứng trực tiếp<br>/ vùng</span>
+      </div>
     </label>`).join('');
-  root.querySelectorAll('input[data-zone]').forEach(el=>el.addEventListener('change',e=>{
-    const id=+e.target.dataset.zone;
-    e.target.checked?selected.add(id):selected.delete(id);
-    
-document.querySelectorAll('.hero-img img, .zoomable').forEach(img=>{
-  img.addEventListener('click', ()=>{
-    const lb=document.getElementById('imageLightbox');
-    const li=document.getElementById('lightboxImg');
-    li.src=img.src;
-    lb.classList.add('open');
-    lb.setAttribute('aria-hidden','false');
+
+  root.querySelectorAll('input[data-zone]').forEach(el => {
+    el.addEventListener('change', e => {
+      const id = +e.target.dataset.zone;
+      e.target.checked ? selected.add(id) : selected.delete(id);
+      renderZones();
+      calc();
+    });
+  });
+}
+
+function sharedCost(n) {
+  if (!n) return 0;
+  return n === 4 ? 660000 : 330000;
+}
+function fogCost() {
+  const fog = document.getElementById('fog');
+  if (!fog || !fog.checked) return 0;
+  const endpoints = [1,4].filter(id => selected.has(id)).length;
+  if (!endpoints) return 0;
+  return endpoints * (DATA.addons.fogUnit + DATA.addons.esp32 + DATA.addons.relay) + DATA.addons.fogFluid;
+}
+function audioCost() {
+  const audio = document.getElementById('audio');
+  if (!audio || !audio.checked || selected.size === 0) return 0;
+  return DATA.addons.speakerPair * (selected.size <= 2 ? 1 : 2);
+}
+function scentCost() {
+  const scent = document.getElementById('scent');
+  return scent && scent.checked && selected.size ? DATA.addons.scent : 0;
+}
+function calc() {
+  const n = selected.size;
+  const zones = n * directPerZone;
+  const shared = sharedCost(n);
+  const validationEl = document.getElementById('validation');
+  const validation = validationEl && validationEl.checked && n ? DATA.validation : 0;
+  const addons = fogCost() + audioCost() + scentCost();
+  const subtotal = zones + shared + validation + addons;
+  const cont = subtotal * DATA.contingency;
+  const total = subtotal + cont;
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+  setText('sumZones', money(zones));
+  setText('sumShared', money(shared));
+  setText('sumValidation', money(validation));
+  setText('sumAddons', money(addons));
+  setText('sumCont', money(cont));
+  setText('sumTotal', money(total));
+  setText('sumTitle', n ? `${n} vùng đang chọn` : 'Chưa chọn vùng');
+}
+
+['validation','fog','audio','scent'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', calc);
+});
+
+document.querySelectorAll('[data-preset]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const p = btn.dataset.preset;
+    const validation = document.getElementById('validation');
+    const fog = document.getElementById('fog');
+    const audio = document.getElementById('audio');
+    const scent = document.getElementById('scent');
+    if (validation) validation.checked = true;
+    if (fog) fog.checked = false;
+    if (audio) audio.checked = false;
+    if (scent) scent.checked = false;
+
+    if (p === 'one') selected = new Set([2]);
+    if (p === 'three') selected = new Set([1,2,3]);
+    if (p === 'four') selected = new Set([1,2,3,4]);
+    if (p === 'full') {
+      selected = new Set([1,2,3,4]);
+      if (fog) fog.checked = true;
+      if (audio) audio.checked = true;
+      if (scent) scent.checked = true;
+    }
+    renderZones();
+    calc();
+    document.getElementById('planner')?.scrollIntoView({behavior:'smooth', block:'start'});
   });
 });
-const closeLightbox=()=>{
-  const lb=document.getElementById('imageLightbox');
-  lb.classList.remove('open');
-  lb.setAttribute('aria-hidden','true');
+
+const zoneParts = document.getElementById('zoneParts');
+if (zoneParts) {
+  zoneParts.innerHTML =
+    `<thead><tr><th>Linh kiện</th><th>Nhóm</th><th>Chi phí</th></tr></thead><tbody>` +
+    DATA.zoneComponents.map(x =>
+      `<tr><td>${x.name}</td><td><span class="chip">${x.group}</span></td><td class="money">${money(x.price)}</td></tr>`
+    ).join('') +
+    `<tr><td><b>Tổng / vùng</b></td><td></td><td class="money"><b>${money(directPerZone)}</b></td></tr></tbody>`;
+}
+
+const oneDirect = document.getElementById('oneDirect');
+const oneCont = document.getElementById('oneCont');
+const oneTotal = document.getElementById('oneTotal');
+const oneSubtotal = directPerZone + 330000 + DATA.validation;
+if (oneDirect) oneDirect.textContent = money(directPerZone);
+if (oneCont) oneCont.textContent = money(oneSubtotal * DATA.contingency);
+if (oneTotal) oneTotal.textContent = money(oneSubtotal * (1 + DATA.contingency));
+
+const sourceTable = document.getElementById('sourceTable');
+if (sourceTable) {
+  sourceTable.innerHTML =
+    `<thead><tr><th>Nhóm</th><th>Linh kiện</th><th>Giá</th><th>Trạng thái</th><th>Nguồn</th></tr></thead><tbody>` +
+    DATA.sources.map(x =>
+      `<tr><td><span class="chip">${x.group}</span></td><td>${x.name}</td><td class="money">${money(x.price)}</td><td>${x.status}</td><td><a class="source-link" href="${x.url}" target="_blank" rel="noopener">Mở nguồn ↗</a></td></tr>`
+    ).join('') +
+    `</tbody>`;
+}
+
+const lightbox = document.getElementById('imageLightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const closeLightbox = () => {
+  if (!lightbox) return;
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden','true');
 };
-document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
-document.getElementById('imageLightbox').addEventListener('click',e=>{
-  if(e.target.id==='imageLightbox') closeLightbox();
+document.querySelectorAll('.hero-img img, .zoomable').forEach(img => {
+  img.addEventListener('click', () => {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = img.src;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden','false');
+  });
 });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+document.getElementById('lightboxClose')?.addEventListener('click', closeLightbox);
+lightbox?.addEventListener('click', e => {
+  if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+});
 
-
+// Hai video theo đúng trình tự yêu cầu
 const EXPERIENCE_VIDEOS = [
   {
     src: "assets/videos/Tiếp_tục_tạo_VIDEO_—_–_s.mp4",
-    label: "Phân cảnh 01 · 10 giây",
+    label: "Video 01",
     title: "Không gian thức tỉnh",
     desc: "Hiệu ứng ánh sáng, sương và các yếu tố tương tác bắt đầu xuất hiện, dẫn khách sâu hơn vào hành trình."
   },
   {
     src: "assets/videos/gemini_generated_video_1dea2977.mp4",
-    label: "Phân cảnh 02 · 10 giây",
+    label: "Video 02",
     title: "Tiếp nối hành trình",
     desc: "Phân cảnh tiếp theo nối liền trải nghiệm, tăng cảm giác tiên cảnh và dẫn khách sang vùng kế tiếp."
   }
@@ -438,204 +558,100 @@ const videoTitle = document.getElementById('videoTitle');
 const videoDesc = document.getElementById('videoDesc');
 const videoNav = document.getElementById('videoNav');
 const videoCards = document.getElementById('videoCards');
-
+const prevVideo = document.getElementById('prevVideo');
+const nextVideo = document.getElementById('nextVideo');
 let currentExperienceVideo = 0;
 
-function selectExperienceVideo(index, autoplay=false){
+function updateVideoUI(index) {
+  document.querySelectorAll('.journey-step[data-video-index]').forEach(step => {
+    step.classList.toggle('active', +step.dataset.videoIndex === index);
+  });
+  if (videoNav) [...videoNav.children].forEach((b,i) => b.classList.toggle('active', i === index));
+  if (videoCards) [...videoCards.children].forEach((c,i) => c.classList.toggle('current', i === index));
+  if (prevVideo) prevVideo.disabled = index === 0;
+  if (nextVideo) nextVideo.disabled = index === EXPERIENCE_VIDEOS.length - 1;
+}
+
+function selectExperienceVideo(index, autoplay = false) {
+  if (!mainVideo || index < 0 || index >= EXPERIENCE_VIDEOS.length) return;
   const item = EXPERIENCE_VIDEOS[index];
-  if(!item) return;
   currentExperienceVideo = index;
-  const wasPlaying = !mainVideo.paused;
+
   mainVideo.pause();
   mainVideo.src = item.src;
   mainVideo.load();
-  videoEyebrow.textContent = item.label;
-  videoTitle.textContent = item.title;
-  videoDesc.textContent = item.desc;
 
-  [...videoNav.children].forEach((b,i)=>b.classList.toggle('active',i===index));
-  [...videoCards.children].forEach((c,i)=>c.classList.toggle('current',i===index));
-  document.querySelectorAll('.journey-step[data-video-index]').forEach(step=>{
-    step.classList.toggle('active', +step.dataset.videoIndex === index);
-  });
-  document.getElementById('prevVideo').disabled = index === 0;
-  document.getElementById('nextVideo').disabled = index === EXPERIENCE_VIDEOS.length - 1;
+  if (videoEyebrow) videoEyebrow.textContent = item.label;
+  if (videoTitle) videoTitle.textContent = item.title;
+  if (videoDesc) videoDesc.textContent = item.desc;
+  updateVideoUI(index);
 
-  if(autoplay || wasPlaying){
-    mainVideo.play().catch(()=>{});
+  if (autoplay) {
+    const startPlayback = () => {
+      mainVideo.play().catch(err => console.warn('Không thể tự phát clip kế tiếp:', err));
+    };
+    if (mainVideo.readyState >= 2) startPlayback();
+    else mainVideo.addEventListener('canplay', startPlayback, {once:true});
   }
 }
 
-videoNav.innerHTML = EXPERIENCE_VIDEOS.map((v,i)=>
-  `<button type="button" data-video-index="${i}" class="${i===0?'active':''}">0${i+1}</button>`
-).join('');
+if (videoNav) {
+  videoNav.innerHTML = EXPERIENCE_VIDEOS.map((v,i) =>
+    `<button type="button" data-video-index="${i}" class="${i===0?'active':''}">0${i+1}</button>`
+  ).join('');
+}
 
-videoCards.innerHTML = EXPERIENCE_VIDEOS.map((v,i)=>`
-  <article class="video-card ${i===0?'current':''}" data-video-index="${i}">
-    <div class="video-wrap">
-      <video muted playsinline preload="metadata">
-        <source src="${v.src}" type="video/mp4">
-      </video>
-    </div>
-    <div class="video-info">
-      <span>${v.label}</span>
-      <h3>${v.title}</h3>
-      <p>${v.desc}</p>
-    </div>
-  </article>
-`).join('');
+if (videoCards) {
+  videoCards.innerHTML = EXPERIENCE_VIDEOS.map((v,i) => `
+    <article class="video-card ${i===0?'current':''}" data-video-index="${i}">
+      <div class="video-wrap">
+        <video muted playsinline preload="metadata">
+          <source src="${v.src}" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-info">
+        <span>${v.label}</span>
+        <h3>${v.title}</h3>
+        <p>${v.desc}</p>
+      </div>
+    </article>
+  `).join('');
+}
 
-videoNav.addEventListener('click', e=>{
+videoNav?.addEventListener('click', e => {
   const btn = e.target.closest('[data-video-index]');
-  if(!btn) return;
-  selectExperienceVideo(+btn.dataset.videoIndex, false);
+  if (btn) selectExperienceVideo(+btn.dataset.videoIndex, true);
 });
-videoCards.addEventListener('click', e=>{
+videoCards?.addEventListener('click', e => {
   const card = e.target.closest('[data-video-index]');
-  if(!card) return;
+  if (!card) return;
   selectExperienceVideo(+card.dataset.videoIndex, true);
-  document.querySelector('.video-feature').scrollIntoView({behavior:'smooth',block:'center'});
+  document.querySelector('.video-feature')?.scrollIntoView({behavior:'smooth', block:'center'});
 });
-
-document.querySelector('.journey-strip').addEventListener('click', e=>{
+document.querySelector('.journey-strip')?.addEventListener('click', e => {
   const step = e.target.closest('.journey-step[data-video-index]');
-  if(!step) return;
-  selectExperienceVideo(+step.dataset.videoIndex, true);
+  if (step) selectExperienceVideo(+step.dataset.videoIndex, true);
 });
-
-document.getElementById('prevVideo').addEventListener('click', ()=>{
-  if(currentExperienceVideo > 0) selectExperienceVideo(currentExperienceVideo - 1, true);
+prevVideo?.addEventListener('click', () => {
+  if (currentExperienceVideo > 0) selectExperienceVideo(currentExperienceVideo - 1, true);
 });
-document.getElementById('nextVideo').addEventListener('click', ()=>{
-  if(currentExperienceVideo < EXPERIENCE_VIDEOS.length - 1) {
+nextVideo?.addEventListener('click', () => {
+  if (currentExperienceVideo < EXPERIENCE_VIDEOS.length - 1) {
     selectExperienceVideo(currentExperienceVideo + 1, true);
   }
 });
 
-mainVideo.addEventListener('ended', ()=>{
-  if(currentExperienceVideo < EXPERIENCE_VIDEOS.length - 1) {
-    selectExperienceVideo(currentExperienceVideo + 1, true);
+mainVideo?.addEventListener('ended', () => {
+  const nextIndex = currentExperienceVideo + 1;
+  if (nextIndex < EXPERIENCE_VIDEOS.length) {
+    selectExperienceVideo(nextIndex, true);
   }
 });
-
 
 selectExperienceVideo(0, false);
-renderZones(); calc();
-  }));
-}
-
-function sharedCost(n){
-  if(!n) return 0;
-  return n===4 ? 660000 : 330000;
-}
-function fogCost(){
-  if(!document.getElementById('fog').checked) return 0;
-  const endpoints=[1,4].filter(id=>selected.has(id)).length;
-  if(!endpoints) return 0;
-  return endpoints*(DATA.addons.fogUnit+DATA.addons.esp32+DATA.addons.relay)+DATA.addons.fogFluid;
-}
-function audioCost(){
-  if(!document.getElementById('audio').checked || selected.size===0) return 0;
-  return DATA.addons.speakerPair*(selected.size<=2?1:2);
-}
-function scentCost(){
-  return document.getElementById('scent').checked && selected.size ? DATA.addons.scent : 0;
-}
-function calc(){
-  const n=selected.size;
-  const zones=n*directPerZone;
-  const shared=sharedCost(n);
-  const validation=document.getElementById('validation').checked && n ? DATA.validation : 0;
-  const addons=fogCost()+audioCost()+scentCost();
-  const subtotal=zones+shared+validation+addons;
-  const cont=subtotal*DATA.contingency;
-  const total=subtotal+cont;
-  document.getElementById('sumZones').textContent=money(zones);
-  document.getElementById('sumShared').textContent=money(shared);
-  document.getElementById('sumValidation').textContent=money(validation);
-  document.getElementById('sumAddons').textContent=money(addons);
-  document.getElementById('sumCont').textContent=money(cont);
-  document.getElementById('sumTotal').textContent=money(total);
-  document.getElementById('sumTitle').textContent=n?`${n} vùng đang chọn`:'Chưa chọn vùng';
-}
-['validation','fog','audio','scent'].forEach(id=>document.getElementById(id).addEventListener('change',calc));
-
-document.querySelectorAll('[data-preset]').forEach(btn=>btn.addEventListener('click',()=>{
-  const p=btn.dataset.preset;
-  document.getElementById('validation').checked=true;
-  document.getElementById('fog').checked=false;
-  document.getElementById('audio').checked=false;
-  document.getElementById('scent').checked=false;
-  if(p==='one') selected=new Set([2]);
-  if(p==='three') selected=new Set([1,2,3]);
-  if(p==='four') selected=new Set([1,2,3,4]);
-  if(p==='full') {
-    selected=new Set([1,2,3,4]);
-    document.getElementById('fog').checked=true;
-    document.getElementById('audio').checked=true;
-    document.getElementById('scent').checked=true;
-  }
-  
-document.querySelectorAll('.hero-img img, .zoomable').forEach(img=>{
-  img.addEventListener('click', ()=>{
-    const lb=document.getElementById('imageLightbox');
-    const li=document.getElementById('lightboxImg');
-    li.src=img.src;
-    lb.classList.add('open');
-    lb.setAttribute('aria-hidden','false');
-  });
-});
-const closeLightbox=()=>{
-  const lb=document.getElementById('imageLightbox');
-  lb.classList.remove('open');
-  lb.setAttribute('aria-hidden','true');
-};
-document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
-document.getElementById('imageLightbox').addEventListener('click',e=>{
-  if(e.target.id==='imageLightbox') closeLightbox();
-});
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
-
-renderZones(); calc();
-  document.getElementById('planner').scrollIntoView({behavior:'smooth',block:'start'});
-}));
-
-const zp=document.getElementById('zoneParts');
-zp.innerHTML=`<thead><tr><th>Linh kiện</th><th>Nhóm</th><th>Chi phí</th></tr></thead><tbody>`+
- DATA.zoneComponents.map(x=>`<tr><td>${x.name}</td><td><span class="chip">${x.group}</span></td><td class="money">${money(x.price)}</td></tr>`).join('')+
- `<tr><td><b>Tổng / vùng</b></td><td></td><td class="money"><b>${money(directPerZone)}</b></td></tr></tbody>`;
-document.getElementById('oneDirect').textContent=money(directPerZone);
-const oneSubtotal=directPerZone+330000+DATA.validation;
-document.getElementById('oneCont').textContent=money(oneSubtotal*DATA.contingency);
-document.getElementById('oneTotal').textContent=money(oneSubtotal*(1+DATA.contingency));
-
-const st=document.getElementById('sourceTable');
-st.innerHTML=`<thead><tr><th>Nhóm</th><th>Linh kiện</th><th>Giá</th><th>Trạng thái</th><th>Nguồn</th></tr></thead><tbody>`+
- DATA.sources.map(x=>`<tr><td><span class="chip">${x.group}</span></td><td>${x.name}</td><td class="money">${money(x.price)}</td><td>${x.status}</td><td><a class="source-link" href="${x.url}" target="_blank" rel="noopener">Mở nguồn ↗</a></td></tr>`).join('')+
- `</tbody>`;
-
-
-document.querySelectorAll('.hero-img img, .zoomable').forEach(img=>{
-  img.addEventListener('click', ()=>{
-    const lb=document.getElementById('imageLightbox');
-    const li=document.getElementById('lightboxImg');
-    li.src=img.src;
-    lb.classList.add('open');
-    lb.setAttribute('aria-hidden','false');
-  });
-});
-const closeLightbox=()=>{
-  const lb=document.getElementById('imageLightbox');
-  lb.classList.remove('open');
-  lb.setAttribute('aria-hidden','true');
-};
-document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
-document.getElementById('imageLightbox').addEventListener('click',e=>{
-  if(e.target.id==='imageLightbox') closeLightbox();
-});
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
-
-renderZones(); calc();
+renderZones();
+calc();
 </script>
+
 </body>
 </html>
